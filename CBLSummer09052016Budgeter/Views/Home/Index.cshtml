@@ -1,31 +1,248 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using CBLSummer09052016Budgeter.Models
+@{ 
+    Layout = null;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@model LoginViewModel
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PLEASURE - User Login</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- BEGIN CORE CSS -->
+    <link rel="stylesheet" href="../../assets/admin1/css/admin1.css">
+    <link rel="stylesheet" href="../../assets/globals/css/elements.css">
+    <!-- END CORE CSS -->
+    <!-- BEGIN PLUGINS CSS -->
+    <link rel="stylesheet" href="../../assets/globals/plugins/bootstrap-social/bootstrap-social.css">
+    <!-- END PLUGINS CSS -->
+    <!-- FIX PLUGINS -->
+    <link rel="stylesheet" href="../../assets/globals/css/plugins.css">
+    <!-- END FIX PLUGINS -->
+    <!-- BEGIN SHORTCUT AND TOUCH ICONS -->
+    <link rel="shortcut icon" href="../../assets/globals/img/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="../../assets/globals/img/icons/apple-touch-icon.png">
+    <!-- END SHORTCUT AND TOUCH ICONS -->
+    <script src="../../assets/globals/plugins/modernizr/modernizr.min.js"></script>
+</head>
+<body class="bg-login printable">
+    <div class="login-screen">
+        <div class="panel-login blur-content">
+            <div class="login-screen">
+                <div class="panel-login blur-content">
+                    <div class="panel-heading"><h3 style="color:azure">Budgeter</h3></div><!--.panel-heading-->
+                    <div id="pane-login" class="panel-body active">
+                        @*<div class="panel-heading"><img src="../../assets/globals/img/teamfox.png" height="100" alt=""></div><!--.panel-heading-->
+                            <div id="pane-login" class="panel-body active">
+                                <h2>Login to Dashboard</h2>
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="email" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="password" class="form-control" placeholder="Enter your password">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-buttons clearfix">
+                                    <label class="pull-left"><input type="checkbox" name="remember" value="1"> Remember me</label>
+                                    <button type="submit" class="btn btn-success pull-right">Login</button>
+                                </div><!--.form-buttons-->
+                                <div class="social-accounts">
+                                    <div class="btn-group btn-merged btn-group-justified">
+                                        <div class="btn-group">
+                                            <a class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a class="btn btn-social btn-github"><i class="fa fa-github"></i> Github</a>
+                                        </div>
+                                    </div>
+                                </div><!--.social-accounts-->
+                                <ul class="extra-links">
+                                    <li><a href="#" class="show-pane-forgot-password">Forgot your password</a></li>
+                                    <li><a href="#" class="show-pane-create-account">Create a new account</a></li>
+                                </ul>
+                            </div><!--#login.panel-body-->
+                            <div id="pane-forgot-password" class="panel-body">
+                                <h2>Forgot Your Password</h2>
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="email" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-buttons clearfix">
+                                    <button type="submit" class="btn btn-white pull-left show-pane-login">Cancel</button>
+                                    <button type="submit" class="btn btn-success pull-right">Send</button>
+                                </div><!--.form-buttons-->
+                            </div><!--#pane-forgot-password.panel-body-->
+                            <div id="pane-create-account" class="panel-body">
+                                <h2>Create a New Account</h2>
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" class="form-control" placeholder="Enter your full name">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="email" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="password" class="form-control" placeholder="Enter your password">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+                                <div class="form-group">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="password" class="form-control" placeholder="Enter your password again">
+                                        </div>
+                                    </div>
+                                </div><!--.form-group-->
+
+                                <div class="form-buttons clearfix">
+                                    <button type="submit" class="btn btn-white pull-left show-pane-login">Cancel</button>
+                                    <button type="submit" class="btn btn-success pull-right">Sign Up</button>
+                                </div><!--.form-buttons-->
+                            </div><!--#login.panel-body-->*@
+                        @*<div class="row">
+                            <div class="col-md-8">
+                                <section id="loginForm">*@
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                            @Html.AntiForgeryToken()
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <div class="checkbox">
+                                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                                            @Html.LabelFor(m => m.RememberMe)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Log in" class="btn btn-success" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<p>
+                                            @Html.Partial("_LoginPartial")
+                                        </p>*@
+                                            <p>
+                                                @Html.ActionLink("Register as a new user", "Register", "Account")
+                                            </p>
+                            //Enable this once you have account confirmation enabled for password reset functionality
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account")
+                            </p>
+                        }
+                        @*</section>*@
+                        </div>
+                    </div>
+                    @*<div class="col-md-4">
+                            <section id="socialLoginForm">
+                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                            </section>
+                        </div>*@
+                </div>
+            </div><!--.blur-content-->
+        </div><!--.login-screen-->
+        @*</div>
+            </div>
+            </div>*@
+
+        <div class="bg-blur dark">
+            <div class="overlay"></div><!--.overlay-->
+        </div><!--.bg-blur-->
+        <svg version="1.1" xmlns='http://www.w3.org/2000/svg'>
+            <filter id='blur'>
+                <feGaussianBlur stdDeviation='7' />
+            </filter>
+        </svg>
+	<!-- BEGIN GLOBAL AND THEME VENDORS -->
+<script src="../../assets/globals/js/global-vendors.js"></script>
+<!-- END GLOBAL AND THEME VENDORS -->
+<!-- BEGIN PLUGINS AREA -->
+<!-- END PLUGINS AREA -->
+<!-- PLUGINS INITIALIZATION AND SETTINGS -->
+<script src="../../assets/globals/scripts/user-pages.js"></script>
+<!-- END PLUGINS INITIALIZATION AND SETTINGS -->
+<!-- PLEASURE Initializer -->
+<script src="../../assets/globals/js/pleasure.js"></script>
+<!-- ADMIN 1 Layout Functions -->
+<script src="../../assets/admin1/js/layout.js"></script>
+<!-- BEGIN INITIALIZATION-->
+<script>
+	$(document).ready(function () {
+		Pleasure.init();
+		Layout.init();
+		UserPages.login();
+	});
+</script>
+<!-- END INITIALIZATION-->
+<!-- BEGIN Google Analytics -->
+<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', Pleasure.settings.ga.urchin, Pleasure.settings.ga.url);
+		ga('send', 'pageview');
+</script>
+<!-- END Google Analytics -->
+</body>
+</html>
+
+
+

@@ -1,0 +1,37 @@
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.Household
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Household</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => Model.User)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+@foreach (var item in Model.User)
+            {
+    <dd>
+        @Html.DisplayFor(m => item.DisplayName)
+    </dd>
+}
+</dl>
+</div>
+<p>
+    @Html.ActionLink("Invite Others to Household", "Invite", new { id = Model.Id })  |
+    @Html.ActionLink("Invite By Email", "InviteByEmail", new { id = Model.Id })
+    
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

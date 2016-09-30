@@ -1,0 +1,67 @@
+﻿
+<link href="~/Content/morris.css" rel="stylesheet" />
+
+
+<div class="content">
+
+    <div class="page-header full-content bg-orange">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-6"><h1>Dashboard <small>everything at a glance</small></h1></div>
+                <div class="col-sm-6">
+                    <div class="row">@Html.Partial("_LoginPartial")</div>
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="#"><i class="ion-home"></i></a></li>
+
+                        </ol>
+                    </div>
+                </div>
+            </div><!--.row-->
+        </div>
+    </div><!--.page-header-->
+    <!-- content -->
+    <div class="flexible-content">
+
+        <h2>Dashboard</h2>
+
+
+        <div class="col-md-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-title"><h4>BAR CHART</h4></div>
+                </div><!--.panel-heading-->
+                <div class="panel-body">
+                    <canvas class="chartjs-bar chartjs-charts" width="320" height="280"></canvas>
+                </div><!--.panel-body-->
+            </div><!--.panel-->
+        </div><!--.col-md-6-->
+
+    </div><!--.flexible-content-->
+    <!-- content -->
+    <div class="footer-links margin-top-40">
+        <div class="row no-gutters">
+            <div class="col-xs-6 bg-cyan">
+                <a href="components-html5-notifications.html">
+                    <span class="state">Components</span>
+                    <span>HTML5 Notifications</span>
+                    <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                </a>
+            </div><!--.col-->
+            <div class="col-xs-6 bg-orange">
+                <a href="layout-fixed-footer-links.html">
+                    <span class="state">Layouts</span>
+                    <span>Fixed Footer Links</span>
+                    <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                </a>
+            </div><!--.col-->
+        </div><!--.row-->
+    </div><!--.footer-links-->
+</div><!--.content-->
+@section Scripts{
+<script src="../../assets/globals/plugins/chartjs/Chart.min.js"></script>
+<script src="../../assets/globals/scripts/charts-chartjs.js"></script>
+<script>
+    ChartsChartJs.init();
+</script>
+}

@@ -1,0 +1,196 @@
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels.AccountsViewModel
+@using CBLSummer09052016Budgeter.Models.CodeFirst
+@using CBLSummer09052016Budgeter.Models.CodeFirst.Helpers
+
+@section Styles{
+<link rel="stylesheet" href="../../assets/globals/plugins/datatables/media/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="../../assets/globals/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
+<link rel="stylesheet" href="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css">
+}
+<div class="content">
+
+    <div class="page-header full-content bg-orange">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-6"><h1>Flexible Space <small>short description</small></h1></div>
+                <div class="col-sm-6">
+                    <div class="row">@Html.Partial("_LoginPartial")</div>
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="@Url.Action("Dashboard", "Home")"><i class="ion-home"></i></a></li>
+
+                            <li><a href="#" class="active">Accounts</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!--.row-->
+        </div>
+    </div><!--.page-header-->
+
+    <div class="flexible-content">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel-group accordion" id="accordion">
+                        @{var aCount = 0; }
+                        @foreach (var item in Model.AccountList)
+                        {
+
+                            <div class="panel">
+                                <div class="panel-heading active">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#@aCount">@item.Name    Balance:  @BalanceHelper.GetBalance(item.Id)   Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)    <small style="margin-right:10%" class="pull-right">Click for transactions</small></a>
+                                </div>
+                                <div id=@aCount class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="panel">
+                                            <div class="panel-heading active">
+                                                <div class="panel-title"><h4>Transactions</h4></div>
+                                            </div><!--.panel-heading-->
+                                            <div class="panel-body">
+                                                <div class="overflow-table">
+                                                    <table class="display datatables-tabletools-basic ">
+                                                        <thead>
+
+                                                            <tr>
+                                                                
+                                                                <th>Date</th>
+                                                                <th>Description</th>
+                                                                <th>Category</th>
+                                                                <th>Method</th>
+                                                                <th>Amount</th>
+                                                                <th>Reconciled</th>
+                                                                <th>Entered By</th>
+                                                                <th>Edit</th>
+                                                                <th>Delete</th>
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            @foreach (var t in item.Transaction)
+                                                            {
+                                                                <tr>
+
+                                                                    
+                                                                    <td>@Html.Raw(t.Date.LocalDateTime)</td>
+                                                                    <td>@Html.Raw(t.Description)</td>
+                                                                    <td>@Html.Raw(t.Category.Name)</td>
+                                                                    <td>@Html.Raw(t.TransactionMethod.Name)</td>
+                                                                    <td>@Html.Raw(t.Amount)</td>
+                                                                    @if (t.Reconciled)
+                                                                    {
+                                                                        <td><span class="glyphicon glyphicon-ok"></span></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>@Html.Raw(t.ReconciledAmount)</td>
+                                                                    }
+                                                                    <td>@Html.Raw(t.EnteredBy.DisplayName)</td>
+                                                                    <td><button class="btn btn-blue btn-xs dt-edit" data-toggle="modal" data-target="#E-@t.Id"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                                    <td><button class="btn btn-danger btn-xs dt-delete"data-toggle="modal" data-target="#D-@t.Id"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                                                </tr>
+                                                                <div class="modal fade full-height from-right" id="E-@t.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+
+                                                                            @Html.Partial("_EditTransaction", t)
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal fade full-height from-left" id="D-@t.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+
+                                                                            @Html.Partial("_DeleteTransaction", t)
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+
+                                                        </tbody>
+                                                    </table>
+
+
+
+                                                </div><!--.overflow-table-->
+                                            </div><!--.panel-body-->
+                                        </div><!--.panel-->
+                                    </div>
+                                </div>
+                            </div>
+                                                                   aCount++;
+                                                                                    }
+
+
+                    </div>
+                    </div><!--.col-md-8-->
+                    <div class="col-md-4">
+                        @Html.Partial("_Create", new Account { HouseholdId = Model.NewAccount.HouseholdId})
+                        @Html.Partial("_NewTransaction", new Transaction())
+                    </div>
+                </div><!--.row-->
+            </div><!--.flexible-content-->
+
+            <div class="footer-links margin-top-40">
+                <div class="row no-gutters">
+                    <div class="col-xs-6 bg-cyan">
+                        <a href="components-html5-notifications.html">
+                            <span class="state">Components</span>
+                            <span>HTML5 Notifications</span>
+                            <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                        </a>
+                    </div><!--.col-->
+                    <div class="col-xs-6 bg-orange">
+                        <a href="layout-fixed-footer-links.html">
+                            <span class="state">Layouts</span>
+                            <span>Fixed Footer Links</span>
+                            <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                        </a>
+                    </div><!--.col-->
+                </div><!--.row-->
+            </div><!--.footer-links-->
+
+
+</div><!--.content-->
+
+@section Scripts{
+    <script src="../../assets/globals/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.js"></script>
+    <!-- END PLUGINS AREA -->
+    <!-- PLUGINS INITIALIZATION AND SETTINGS -->
+    <script src="../../assets/globals/scripts/tables-datatables-extensions.js"></script>
+    @*<script type="text/javascript">
+        $(function () {
+            // Initialize numeric spinner input boxes
+            //$(".numeric-spinner").spinedit();
+            // Initialize modal dialog
+            // attach modal-container bootstrap attributes to links with .modal-link class.
+            // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', '#modal-container');
+            });
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+</script>*@}

@@ -1,44 +1,99 @@
-﻿<!DOCTYPE html>
-<html>
+﻿
+<html class="no-js flexible-space">
+ <!--<![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PLEASURE - Flexible Space</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- BEGIN CORE CSS -->
+    <link rel="stylesheet" href="../../assets/admin1/css/admin1.css">
+    <link rel="stylesheet" href="../../assets/globals/css/elements.css">
+    <link href="~/assets/globals/css/plugins.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/globals/plugins/bootstrap-social/bootstrap-social.css">
+    <!-- END CORE CSS -->
+    <!-- BEGIN PLUGINS CSS -->
+    @*<link rel="stylesheet" href="../../assets/globals/plugins/datatables/media/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../assets/globals/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
+    <link rel="stylesheet" href="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css">*@
+    <link rel="stylesheet" href="../../assets/globals/css/plugins.css">
+    
+    <!-- END PLUGINS CSS -->
+    <!-- BEGIN SHORTCUT AND TOUCH ICONS -->
+    <link rel="shortcut icon" href="../../assets/globals/img/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="../../assets/globals/img/icons/apple-touch-icon.png">
+    <!-- END SHORTCUT AND TOUCH ICONS -->
 
+    <script src="../../assets/globals/plugins/modernizr/modernizr.min.js"></script>
+    @RenderSection("styles", required: false)
+    @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+<body class="fixed-footer">
 
-    @Scripts.Render("~/bundles/jquery")
+    @Html.Partial("_SideNavBar")
+
+   
+
+    @RenderBody()
+
+    @Html.Partial("_LayerContainer")
+
+    <!-- BEGIN GLOBAL AND THEME VENDORS -->
+    <script src="../../assets/globals/js/global-vendors.js"></script>
+    <!-- END GLOBAL AND THEME VENDORS -->
+    <!-- BEGIN PLUGINS AREA -->
+
+    @*<script src="../../assets/globals/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.js"></script>
+    <!-- END PLUGINS AREA -->
+    <!-- PLUGINS INITIALIZATION AND SETTINGS -->
+    <script src="../../assets/globals/scripts/tables-datatables-extensions.js"></script>*@
+
+
+    <script src="../../assets/globals/scripts/user-pages.js"></script>
+    <!-- END PLUGINS INITIALIZATION AND SETTINGS -->
+    <!-- PLEASURE -->
+    <script src="../../assets/globals/js/pleasure.js"></script>
+    <!-- ADMIN 1 -->
+    <script src="../../assets/admin1/js/layout.js"></script>
+    <!-- BEGIN INITIALIZATION-->
+
+
+
+    <!-- END INITIALIZATION-->
+    <!-- BEGIN Google Analytics -->
+    <script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', Pleasure.settings.ga.urchin, Pleasure.settings.ga.url);
+		ga('send', 'pageview');
+    </script>
+    <!-- END Google Analytics -->
+
+    
+    <script>
+	$(document).ready(function () {
+		Pleasure.init();
+		Layout.init();
+		TablesDataTablesExtensions.init();
+		UserPages.login();
+	});
+    </script>
+    @Styles.Render()
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-</body>
+
+</body>   
 </html>

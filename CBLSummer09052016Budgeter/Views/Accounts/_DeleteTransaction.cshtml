@@ -1,0 +1,124 @@
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.Transaction
+
+<div class="modal-body">
+
+    @using (Html.BeginForm("Delete", "Transactions", FormMethod.Post))
+    {
+        <div class="row">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Transaction</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                @Html.HiddenFor(model => model.AccountId)
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.AccountId, "AccountId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("AccountId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.Date)
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TransactionType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.TransactionType.Name)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TransactionMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.TransactionMethod.Name)
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Category, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Category.Name)
+                        
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                        @Html.LabelFor(model => model.EnteredBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.EnteredBy.DisplayName)
+
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.DisplayFor(model => model.Reconciled)
+                            
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.ReconciledAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ReconciledAmount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReconciledAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="submit" id="approve-btn"
+                        class="btn btn-danger">
+                    Save
+                </button>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts{
+    <script src="../../assets/globals/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+    <script src="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.js"></script>
+    <!-- END PLUGINS AREA -->
+    <!-- PLUGINS INITIALIZATION AND SETTINGS -->
+    <script src="../../assets/globals/scripts/tables-datatables-extensions.js"></script>
+}

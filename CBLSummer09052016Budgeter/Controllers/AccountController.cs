@@ -9,12 +9,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CBLSummer09052016Budgeter.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private static ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -27,6 +29,8 @@ namespace CBLSummer09052016Budgeter.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
+
+
 
         public ApplicationSignInManager SignInManager
         {
@@ -73,13 +77,26 @@ namespace CBLSummer09052016Budgeter.Controllers
                 return View(model);
             }
 
+            // Require the user to have a confirmed email before they can log on.
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+                    ViewBag.errorMessage = "You must have a confirmed email to log on."
+                        + "The confirmation token has been resent to your email account."; ;
+                    return View("Error");
+                }
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Dashboard", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -149,27 +166,77 @@ namespace CBLSummer09052016Budgeter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            var ctx = new ApplicationDbContext();
+            var userList = ctx.Users.ToList();
+            var check = userList.First(e => e.Email == model.Email);
+            
+            if (check != null && ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                check.DisplayName = model.DisplayName;
+                check.Email = model.Email;
+                check.EmailConfirmed = true;
+                check.FirstName = model.FirstName;
+                check.LastName = model.LastName;
+                
+
+                //user.ProfilePictureUrl = model.ProfilePictureUrl;
+
+                var store = new UserStore<ApplicationUser>(ctx);
+                var manager = new ApplicationUserManager(store);
+                var updateResult = await manager.UpdateAsync(check);
+
+
+                if (updateResult.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var passResult = await UserManager.AddPasswordAsync(check.Id, model.Password);
+                    if (passResult.Succeeded)
+                    {
+                        var user = await UserManager.FindByIdAsync(check.Id);
+                        if (user != null)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        }
+                        
+                        return RedirectToAction("AcceptedInvite", "Households");
+                    }
 
-                    return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
             }
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser { DisplayName = model.DisplayName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+
+                        //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+
+                        // Uncomment to debug locally 
+                        // TempData["ViewBagLink"] = callbackUrl;
+
+                        ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
+                                        + "before you can log in.";
+
+                        return View("Info");
+                        //return RedirectToAction("Index", "Home");
+
+                    }
+                    AddErrors(result);
+                }
+
+                // If we got this far, something failed, redisplay form
+                return View(model);
+           
         }
 
         //
@@ -185,6 +252,8 @@ namespace CBLSummer09052016Budgeter.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+
+   
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -211,10 +280,10 @@ namespace CBLSummer09052016Budgeter.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -367,7 +436,7 @@ namespace CBLSummer09052016Budgeter.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { DisplayName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -426,6 +495,19 @@ namespace CBLSummer09052016Budgeter.Controllers
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
+
+
 
         private IAuthenticationManager AuthenticationManager
         {

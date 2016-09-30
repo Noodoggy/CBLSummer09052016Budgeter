@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmInvite";
+}
+
+<h2>ConfirmInvite</h2>
+<div>
+    @if (ViewBag.flag)
+    {
+        <p>
+            Thank you for accepting the invitation. Please @Html.ActionLink("register with the email that your invitation was sent to.", "Register", "Account")
+        </p>
+    }
+    else
+    {
+        <p>
+            Thank you for accpeting the invitation. Please @Html.ActionLink("click here to see your household", "AcceptedInvite", "Households")
+        </p>
+    }
+</div>

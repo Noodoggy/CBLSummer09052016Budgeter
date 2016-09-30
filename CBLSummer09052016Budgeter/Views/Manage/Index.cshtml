@@ -23,6 +23,19 @@
             }
             ]
         </dd>
+        @*<dt>User Profile Information:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your user profile information", "ChangeUserInfo")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>*@
         <dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [

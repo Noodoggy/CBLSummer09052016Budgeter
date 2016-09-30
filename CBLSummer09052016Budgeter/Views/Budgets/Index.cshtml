@@ -1,0 +1,211 @@
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels.BudgetViewModel
+@using CBLSummer09052016Budgeter.Models.CodeFirst
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="content">
+
+    <div class="page-header full-content bg-orange">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-6"><h1>Flexible Space <small>short description</small></h1></div>
+                <div class="col-sm-6">
+                    <div class="row">@Html.Partial("_LoginPartial")</div>
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="@Url.Action("Dashboard", "Home")"><i class="ion-home"></i></a></li>
+
+                            <li><a href="#" class="active">Budgets</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!--.row-->
+        </div>
+    </div><!--.page-header-->
+
+    <div class="flexible-content" style="margin-bottom: 100px">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-group accordion" id="accordion">
+                    @{var aCount = 0; }
+                    @foreach (var item in Model.BudgetList)
+                    {
+
+                        <div class="panel">
+                            <div class="panel-heading active">
+                                <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#@aCount">@item.Name<small style="margin-right:10%" class="pull-right">Click for details</small></a>
+                            </div>
+                            <div id=@aCount class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="panel">
+                                        <div class="panel-heading active">
+                                            <div class="panel-title"><h4>Budget Items</h4></div>
+                                        </div><!--.panel-heading-->
+                                        <div class="panel-body">
+                                            <div class="overflow-table">
+                                                <table class="display datatables-tabletools-basic ">
+                                                    <thead>
+
+                                                        <tr>
+                                                            <th><input type="checkbox" class="checkable-group" data-target=".dataTable .checkboxes"></th>
+                                                            <th>Category</th>
+                                                            <th>Budgeted Amount</th>
+                                                            <th>Actual</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        @foreach (var t in item.BudgetItem)
+                                                        {
+                                                            <tr>
+
+                                                                <td><input type="checkbox" class="checkboxes" value="1"></td>
+                                                                <td>@Html.Raw(t.Category.Name)</td>
+                                                                <td>@Html.Raw(t.Amount)</td>
+                                                                <td>placeholder for actual amount</td>
+                                                                <td><button class="btn btn-primary btn-xs dt-edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                                <td><button class="btn btn-danger btn-xs dt-delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div><!--.overflow-table-->
+                                        </div><!--.panel-body-->
+                                    </div><!--.panel-->
+                                </div>
+                            </div>
+                        </div>
+                        aCount++;
+                    }
+
+
+                </div>
+            </div><!--.col-md-8-->
+            <div class="col-md-4">
+                @Html.Partial("_Create", new Budget { HouseholdId = Model.NewBudget.HouseholdId })
+                @Html.Partial("_NewBudgetItem", new BudgetItem())
+            </div>
+        </div><!--.row-->
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="ui-widget-header bordered-bottom bordered-blue">
+                        <span class="widget caption">budget</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="chart1">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="ui-widget-header bordered-bottom bordered-blue">
+                        <span class="widget caption">budget</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="chart2">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="ui-widget-header bordered-bottom bordered-blue">
+                        <span class="widget caption">budget</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="MonthlyChart">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+  
+
+
+    </div>
+    <div class="footer-links margin-top-40">
+        <div class="row no-gutters">
+            <div class="col-xs-6 bg-cyan">
+                <a href="components-html5-notifications.html">
+                    <span class="state">Components</span>
+                    <span>HTML5 Notifications</span>
+                    <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                </a>
+            </div><!--.col-->
+            <div class="col-xs-6 bg-orange">
+                <a href="layout-fixed-footer-links.html">
+                    <span class="state">Layouts</span>
+                    <span>Fixed Footer Links</span>
+                    <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                </a>
+            </div><!--.col-->
+        </div><!--.row-->
+    </div><!--.footer-links-->
+</div><!--.content-->
+@section Scripts {
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script type="text/javascript">
+            $(function () {
+                $.get('@Url.Action("GetChart", "Budgets", new { id = 1 })').then(function (response) {
+
+                    $('#exp').text('$' + response.totalExpense);
+                    $('#bud').text('$' + response.totalBudget);
+                    $('#acc').text('$' + response.totalAcc);
+                    new Morris.Bar({
+                        element: 'chart1',
+                        data: response.bar,
+                        xkey: 'Category',
+                        ykeys: ['Actual', 'Budgeted'],
+                        labels: ['Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
+                    new Morris.Donut({
+                        element: 'chart2',
+                        data: response.donut,
+                        resize: true
+                    });
+                });
+
+                $.post('@Url.Action("GetMonthly", "Budgets")').then(function (response) {
+                    console.log(response);
+                    new Morris.Bar({
+                        element: 'MonthlyChart',
+                        data: response,
+                        xkey: 'month',
+                        ykeys: ['income', 'expense', 'budget'],
+                        labels: ['Income to Date', 'Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
+                });
+            });
+    </script>
+
+    }

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CBLSummer09052016Budgeter.Models;
+using CBLSummer09052016Budgeter.Models.CodeFirst;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
@@ -321,6 +322,45 @@ namespace CBLSummer09052016Budgeter.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
+
+        ////GET: Manage/UserInformation
+        //public ActionResult ChangeUserInfo()
+        //{
+        //    ApplicationDbContext db = new ApplicationDbContext();
+        //    ChangeUserInfoViewModel model = new ChangeUserInfoViewModel();
+        //    var user = User.Identity.GetUserId();
+        //    var userId = db.Users.Find(user);
+        //    if (userId != null)
+        //    {
+        //        model.DisplayName = userId.DisplayName;
+        //        model.Email = userId.Email;
+        //        model.FirstName = userId.FirstName;
+        //        model.LastName = userId.LastName;
+        //        model.PhoneNumber = userId.PhoneNumber;
+        //    }
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ChangeUserInfo(ChangeUserInfoViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+        //    user.Email = model.Email;
+        //    user.UserName = model.DisplayName;
+        //    user.FirstName = model.FirstName;
+        //    user.PhoneNumber = model.PhoneNumber;
+        //    user.LastName = model.LastName;
+
+        //    var result = await UserManager.UpdateAsync(user);
+        //    return View(result);
+
+        //}
 
         protected override void Dispose(bool disposing)
         {

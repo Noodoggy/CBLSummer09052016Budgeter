@@ -1,0 +1,124 @@
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels.HouseholdIndexViewModel
+
+<div class="content">
+    <div class="page-header full-content bg-orange">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Flexible Space <small>short description</small></h1>
+            </div><!--.col-->
+            <div class="col-sm-6">
+                <ol class="breadcrumb">
+                    <li><a href="@Url.Action("Dashboard", "Home")"><i class="ion-home"></i></a></li>
+
+                    <li><a href="#" class="active">Households</a></li>
+                </ol>
+            </div><!--.col-->
+        </div><!--.row-->
+    </div><!--.page-header-->
+    <!-- content -->
+
+        <div class="flexible-content">
+
+            <div class="row">
+                <div class="col-md-8">
+                <h2>Household Users</h2>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UserList)
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model.List)
+                        {
+                            foreach (var user in item.User) 
+                        {
+                            <tr>
+                                @if (user.DisplayName != null)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(model => user.DisplayName)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.DisplayFor(model => user.Email)
+                                    </td>
+                                }
+                                <td>
+                                    
+                                    @Html.ActionLink("Remove User", "RemoveUser", "Households", null, new { id = user.Id, hid = item.Id })
+                                </td>
+                            </tr>
+                            }
+
+
+
+                            <div class="row">
+                                @Html.ActionLink("Invite By Email to Household", "InviteByEmail", new { id = item.Id })
+                            </div>
+                            <div>
+                            @foreach (var user in Model.UserList)
+                            {
+                                <div class="row">
+                                    <p>
+                                        @if (user.DisplayName != null)
+                                        { @user.DisplayName
+                                        }
+                                        else
+                                        {
+<p>@user.Email</p>}
+
+                                        @Html.ActionLink("Invite User to Household", "Invite")</p>
+                                    </div>
+                            }
+
+
+                            <div class="row">
+                                @Html.ActionLink("Leave Household", "LeaveHousehold")
+                            </div>
+                                </div>
+                        }
+
+
+
+                    </table>
+                <h2>Accounts</h2>
+                    @foreach (var item in Model.List)
+                        {
+                            foreach (var acct in item.Account)
+                            {
+                            <p>
+                        <a href="@Url.Action("Index", "Accounts")">@acct.Name:    Balance: @acct.Balance</a>
+                            </p>
+                            }
+                        }
+                  
+</div>
+            </div>
+
+
+                </div><!--.flexible-content-->
+
+                <div class="footer-links margin-top-40">
+                    <div class="row no-gutters">
+                        <div class="col-xs-6 bg-cyan">
+                            <a href="components-html5-notifications.html">
+                                <span class="state">Components</span>
+                                <span>HTML5 Notifications</span>
+                                <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                            </a>
+                        </div><!--.col-->
+                        <div class="col-xs-6 bg-orange">
+                            <a href="layout-fixed-footer-links.html">
+                                <span class="state">Layouts</span>
+                                <span>Fixed Footer Links</span>
+                                <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                            </a>
+                        </div><!--.col-->
+                    </div><!--.row-->
+                </div><!--.footer-links-->
+            </div><!--.content-->
