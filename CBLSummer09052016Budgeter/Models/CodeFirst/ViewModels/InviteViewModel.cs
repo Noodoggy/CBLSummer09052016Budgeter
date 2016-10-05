@@ -10,7 +10,7 @@ namespace CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels
     {
         public string HouseholdName { get; set; }
         public int Id { get; set; }
-        public SelectList users { get; set; }
+        public ApplicationUser user { get; set; }
         public string[] selected { get; set; }
         public virtual Household Household { get; set; }
     }

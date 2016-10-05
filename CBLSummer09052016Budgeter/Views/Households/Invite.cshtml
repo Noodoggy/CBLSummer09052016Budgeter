@@ -107,9 +107,9 @@
                                 @Html.HiddenFor(m => m.Id)
                                 @Html.HiddenFor(m => m.Household)
                                 @Html.HiddenFor(m => m.HouseholdName)
-                                @Html.HiddenFor(m => m.users)
+                                @Html.HiddenFor(m => m.user)
 
-                                @Html.ListBox("selected", Model.users)
+                                @Html.DisplayFor(m => m.user)
 
                                 <br />
 

@@ -17,6 +17,7 @@ using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels;
 using System.Collections.Generic;
+using static CBLSummer09052016Budgeter.Models.CodeFirst.Helpers.HouseholdUsersHelper;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
@@ -24,7 +25,7 @@ namespace CBLSummer09052016Budgeter.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-
+        private HouseholdUsersHelper huh = new HouseholdUsersHelper();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -233,13 +234,13 @@ namespace CBLSummer09052016Budgeter.Controllers
             return View("Index");
         }
 
-        [AuthorizeHouseholdRequired]
-        public ActionResult RemoveUser(string userId, int? householdId)
-        {
-            HouseholdUsersHelper helper = new HouseholdUsersHelper();
-            helper.RemoveFromHousehold(userId, householdId);
-            return View("Index");
-        }
+        //[AuthorizeHouseholdRequired]
+        //public ActionResult RemoveUser(string userId, int householdId)
+        //{
+        //    HouseholdUsersHelper helper = new HouseholdUsersHelper();
+        //    helper.RemoveFromHousehold(userId, householdId);
+        //    return View("Index");
+        //}
 
         public ActionResult ListUsers(int householdId)
         {
@@ -247,16 +248,17 @@ namespace CBLSummer09052016Budgeter.Controllers
             return View(helper.ListHouseholdUsers(householdId));
         }
 
-        public ActionResult Invite(int id, int hid)
+        public ActionResult Invite(string id, int hid)
         {
-            var household = db.Households.Find(id);                                             //find project by id
+            var household = db.Households.Find(hid);                                             //find project by id
             HouseholdUsersHelper helper = new HouseholdUsersHelper();                         //helper that can be used locally
             var model = new Models.CodeFirst.ViewModels.InviteViewModel();                                     //use model to render in view
             model.HouseholdName = household.Name;                                               //insert project data
             model.Id = household.Id;                                                           //insert project id
-            model.selected = helper.ListHouseholdUsers(id).ToArray();                         //users on project to array of selected for multiselect list
+            model.selected = helper.ListHouseholdUsers(hid).ToArray();                         //users on project to array of selected for multiselect list
             model.Household = household;
-            model.users = new SelectList(db.Users, "Id", "DisplayName");        //mulitselect list with names and selected as users on project
+            var user = User.Identity.GetUserId();
+            model.user = db.Users.Find(user);        //mulitselect list with names and selected as users on project
 
 
             return View(model);
@@ -346,18 +348,18 @@ namespace CBLSummer09052016Budgeter.Controllers
             var h = Extensions.GetHouseholdId(User.Identity);
             int hid = 0;
             Int32.TryParse(h, out hid);
-            RemoveUser(userId, hid);
+            huh.RemoveFromHousehold(userId, hid);
             await ControllerContext.HttpContext.RefreshAuthentication(db.Users.Find(userId));
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+       
         [AuthorizeHouseholdRequired]
-        public async Task<ActionResult> RemoveUser(int id, int hid)
+        public async Task<ActionResult> RemoveUser(string id, int hid)
         {
             var userId = db.Users.Find(id).Id;
 
-            RemoveUser(userId, hid);
+            huh.RemoveFromHousehold(userId, hid);
             await ControllerContext.HttpContext.RefreshAuthentication(db.Users.Find(userId));
             return RedirectToAction("Index");
         }

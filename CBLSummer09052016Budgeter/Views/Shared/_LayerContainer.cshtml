@@ -3,20 +3,20 @@
     <div class="menu-layer">
         <ul>
             <li>
-                <a href="index.html">Dashboard</a>
+                <a href="@Url.Action("Dashboard", "Home")">Dashboard</a>
             </li>
             <li>
-                <a href="javascript:;">Accounts</a>
-                <ul class="child-menu">
+                <a href="@Url.Action("Index", "Budgets")">Budget</a>
+                @*<ul class="child-menu">
                     <li><a href="cards-image.html">Image Cards</a></li>
                     <li><a href="cards-audio.html">Audio Cards</a></li>
                     <li><a href="cards-video.html">Video Cards</a></li>
                     <li><a href="cards-clickable.html">Clickable Cards</a></li>
-                </ul>
+                </ul>*@
             </li>
             <li>
-                <a href="javascript:;">Household</a>
-                <ul class="child-menu">
+                <a href="@Url.Action("Index", "Accounts")">Account</a>
+                @*<ul class="child-menu">
                     <li><a href="ui-elements-general.html">General</a></li>
                     <li><a href="ui-elements-buttons.html">Buttons</a></li>
                     <li><a href="ui-elements-lists.html">Lists</a></li>
@@ -27,20 +27,20 @@
                     <li><a href="ui-elements-tabs.html">Tabs &amp; Accordions</a></li>
                     <li><a href="ui-elements-typography.html">Typography</a></li>
                     <li><a href="ui-elements-loaders.html">Loaders</a></li>
-                </ul>
+                </ul>*@
             </li>
             <li>
-                <a href="javascript:;">Budgets</a>
-                <ul class="child-menu">
+                <a href="@Url.Action("Index", "Households")">Household</a>
+                @*<ul class="child-menu">
                     <li><a href="panels.html">Panel Types</a></li>
                     <li><a href="panels-draggable.html">Draggable Panels</a></li>
                     <li><a href="panels-styling.html">Styled Panels</a></li>
                     <li><a href="panels-ajax.html">Ajax Panels</a></li>
-                </ul>
+                </ul>*@
             </li>
-            @*<li>
-                <a href="javascript:;">Forms</a>
-                <ul class="child-menu">
+            <li>
+                <a href="@Url.Action("Index", "Manage")">User</a>
+                @*<ul class="child-menu">
                     <li><a href="forms-general.html">General</a></li>
                     <li><a href="forms-layouts.html">Layouts</a></li>
                     <li><a href="forms-tools.html">Tools</a></li>
@@ -67,9 +67,9 @@
                             <li><a href="forms-custom-file-input.html">Custom File Input</a></li>
                         </ul>
                     </li>
-                </ul>
+                </ul>*@
             </li>
-            <li>
+            @*<li>
                 <a href="javascript:;">Tables</a>
                 <ul class="child-menu">
                     <li><a href="table-elements.html">Elements</a></li>
@@ -156,8 +156,8 @@
                     <li><a href="email-invoice.html" target="_blank">Invoice Template</a></li>
                     <li><a href="email-list.html" target="_blank">List Template</a></li>
                 </ul>
-            </li>*@
-            @*<li>
+            </li>
+            <li>
                 <a href="http://themeforest.net/item/pleasure-material-design-responsive-admin-panel/10579013">Buy Pleasure</a>
             </li>*@
         </ul>

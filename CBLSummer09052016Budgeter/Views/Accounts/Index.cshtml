@@ -12,7 +12,7 @@
     <div class="page-header full-content bg-orange">
         <div class="row">
             <div class="col-sm-12">
-                <div class="col-sm-6"><h1>Flexible Space <small>short description</small></h1></div>
+                <div class="col-sm-6"><h1>Accounts<small>with transactions</small></h1></div>
                 <div class="col-sm-6">
                     <div class="row">@Html.Partial("_LoginPartial")</div>
                     <div class="row">
@@ -139,18 +139,18 @@
             <div class="footer-links margin-top-40">
                 <div class="row no-gutters">
                     <div class="col-xs-6 bg-cyan">
-                        <a href="components-html5-notifications.html">
+                        @*<a href="components-html5-notifications.html">
                             <span class="state">Components</span>
                             <span>HTML5 Notifications</span>
                             <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                        </a>
+                        </a>*@
                     </div><!--.col-->
                     <div class="col-xs-6 bg-orange">
-                        <a href="layout-fixed-footer-links.html">
+                        @*<a href="layout-fixed-footer-links.html">
                             <span class="state">Layouts</span>
                             <span>Fixed Footer Links</span>
                             <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                        </a>
+                        </a>*@
                     </div><!--.col-->
                 </div><!--.row-->
             </div><!--.footer-links-->
@@ -158,7 +158,7 @@
 
 </div><!--.content-->
 
-@section Scripts{
+@*@section Scripts{
     <script src="../../assets/globals/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="../../assets/globals/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
     <script src="../../assets/globals/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
@@ -169,28 +169,4 @@
     <!-- END PLUGINS AREA -->
     <!-- PLUGINS INITIALIZATION AND SETTINGS -->
     <script src="../../assets/globals/scripts/tables-datatables-extensions.js"></script>
-    @*<script type="text/javascript">
-        $(function () {
-            // Initialize numeric spinner input boxes
-            //$(".numeric-spinner").spinedit();
-            // Initialize modal dialog
-            // attach modal-container bootstrap attributes to links with .modal-link class.
-            // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
-            $('body').on('click', '.modal-link', function (e) {
-                e.preventDefault();
-                $(this).attr('data-target', '#modal-container');
-                $(this).attr('data-toggle', '#modal-container');
-            });
-            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
-            $('body').on('click', '.modal-close-btn', function () {
-                $('#modal-container').modal('hide');
-            });
-            //clear modal cache, so that new content can be loaded
-            $('#modal-container').on('hidden.bs.modal', function () {
-                $(this).removeData('bs.modal');
-            });
-            $('#CancelModal').on('click', function () {
-                return false;
-            });
-        });
-</script>*@}
+}*@

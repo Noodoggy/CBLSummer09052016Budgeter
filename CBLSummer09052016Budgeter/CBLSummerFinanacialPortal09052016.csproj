@@ -244,6 +244,7 @@
     <Compile Include="Models\CodeFirst\TransactionTypeModel.cs" />
     <Compile Include="Models\CodeFirst\ViewModels\AccountsViewModel.cs" />
     <Compile Include="Models\CodeFirst\ViewModels\BudgetViewModel.cs" />
+    <Compile Include="Models\CodeFirst\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\CodeFirst\ViewModels\HouseholdIndexViewModel.cs" />
     <Compile Include="Models\CodeFirst\ViewModels\InviteByEmailViewModel.cs" />
     <Compile Include="Models\CodeFirst\ViewModels\InviteViewModel.cs" />
@@ -6452,6 +6453,7 @@
     <Content Include="Views\Accounts\_DeleteTransaction.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Households\RemoveUser.cshtml" />
+    <Content Include="Views\Home\_NewTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

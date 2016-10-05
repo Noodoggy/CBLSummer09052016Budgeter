@@ -1,5 +1,8 @@
-﻿
-<link href="~/Content/morris.css" rel="stylesheet" />
+﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels.DashboardViewModel
+@using CBLSummer09052016Budgeter.Models.CodeFirst
+@using CBLSummer09052016Budgeter.Models.CodeFirst.Helpers
+
+
 
 
 <div class="content">
@@ -25,43 +28,149 @@
 
         <h2>Dashboard</h2>
 
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="widget">
+                        <div class="ui-widget-header bordered-bottom bordered-blue">
+                            <span class="widget caption">Month To Date</span>
+                        </div>
+                        <div class="widget-body">
+                            <div id="MonthlyChart">
 
-        <div class="col-md-6">
-            <div class="panel">
-                <div class="panel-heading">
-                    <div class="panel-title"><h4>BAR CHART</h4></div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    <canvas class="chartjs-bar chartjs-charts" width="320" height="280"></canvas>
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-md-6-->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <div class="panel-title"><h4>Accounts</h4></div>
+                            </div><!--.panel-heading-->
+                            <div class="panel-body">
+                                <div class="panel-group accordion" id="accordion">
+
+                                    @foreach (var item in Model.AccountList)
+                                    {
+
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="@Url.Action("Index", "Accounts")">@item.Name        Balance:   @BalanceHelper.GetBalance(item.Id)       Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)    <small style="margin-right:10%" class="pull-right">Click for transactions</small></a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div><!--.panel-body-->
+                            </div><!--.panel-->
+                        </div><!--.col-md-6-->
+                    </div>
+
+                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+            @Html.Partial("_NewTransaction", new Transaction())
+            </div>
+                <div class="row">
+                   
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title"><h4>Recent Transactions</h4></div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body without-padding">
+                            <ul class="list-material">
+
+                                @foreach (var item in Model.RecentTransactions)
+                                {
+
+                                <li class="has-action-left">
+                                    <a class="visible">
+                                        <div class="list-content">
+                                            <span class="title">@item.Amount     @item.Date.LocalDateTime</span>
+                                            <span class="caption">Description:  @item.Description   Type:  @item.TransactionType.Name   Account: @item.Account.Name  </span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                }
+                            </ul>
+                        </div><!--.panel-body-->
+                    </div><!--.panel-->
+                         
+                    </div>
+
+                </div>
+
+            </div>
+ 
 
     </div><!--.flexible-content-->
     <!-- content -->
     <div class="footer-links margin-top-40">
         <div class="row no-gutters">
             <div class="col-xs-6 bg-cyan">
-                <a href="components-html5-notifications.html">
+                @*<a href="components-html5-notifications.html">
                     <span class="state">Components</span>
                     <span>HTML5 Notifications</span>
                     <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                </a>
+                </a>*@
             </div><!--.col-->
             <div class="col-xs-6 bg-orange">
-                <a href="layout-fixed-footer-links.html">
+                @*<a href="layout-fixed-footer-links.html">
                     <span class="state">Layouts</span>
                     <span>Fixed Footer Links</span>
                     <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                </a>
+                </a>*@
             </div><!--.col-->
         </div><!--.row-->
     </div><!--.footer-links-->
 </div><!--.content-->
 @section Scripts{
-<script src="../../assets/globals/plugins/chartjs/Chart.min.js"></script>
-<script src="../../assets/globals/scripts/charts-chartjs.js"></script>
-<script>
-    ChartsChartJs.init();
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<script type="text/javascript">
+            $(function () {
+                $.get('@Url.Action("GetChart", "Budgets", new { id =  Model.BudgetId})').then(function (response) {
+
+                    $('#exp').text('$' + response.totalExpense);
+                    $('#bud').text('$' + response.totalBudget);
+                    $('#acc').text('$' + response.totalAcc);
+                    new Morris.Bar({
+                        element: 'chart1',
+                        data: response.bar,
+                        xkey: 'Category',
+                        ykeys: ['Actual', 'Budgeted'],
+                        labels: ['Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
+                    new Morris.Donut({
+                        element: 'chart2',
+                        data: response.donut,
+                        resize: true
+                    });
+                });
+
+                $.post('@Url.Action("GetMonthly", "Budgets")').then(function (response) {
+                    console.log(response);
+                    new Morris.Bar({
+                        element: 'MonthlyChart',
+                        data: response,
+                        xkey: 'month',
+                        ykeys: ['income', 'expense', 'budget'],
+                        labels: ['Income to Date', 'Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
+                });
+            });
 </script>
+
 }
+
+
+
+

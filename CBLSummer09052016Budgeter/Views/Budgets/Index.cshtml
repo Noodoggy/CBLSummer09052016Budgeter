@@ -11,7 +11,7 @@
     <div class="page-header full-content bg-orange">
         <div class="row">
             <div class="col-sm-12">
-                <div class="col-sm-6"><h1>Flexible Space <small>short description</small></h1></div>
+                <div class="col-sm-6"><h1>Budget <small></small></h1></div>
                 <div class="col-sm-6">
                     <div class="row">@Html.Partial("_LoginPartial")</div>
                     <div class="row">
@@ -143,69 +143,69 @@
             </div>
         </div>
 
-  
+
 
 
     </div>
     <div class="footer-links margin-top-40">
         <div class="row no-gutters">
             <div class="col-xs-6 bg-cyan">
-                <a href="components-html5-notifications.html">
+                @*<a href="components-html5-notifications.html">
                     <span class="state">Components</span>
                     <span>HTML5 Notifications</span>
                     <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                </a>
+                </a>*@
             </div><!--.col-->
             <div class="col-xs-6 bg-orange">
-                <a href="layout-fixed-footer-links.html">
+                @*<a href="layout-fixed-footer-links.html">
                     <span class="state">Layouts</span>
                     <span>Fixed Footer Links</span>
                     <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                </a>
+                </a>*@
             </div><!--.col-->
         </div><!--.row-->
     </div><!--.footer-links-->
 </div><!--.content-->
 @section Scripts {
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
     <script type="text/javascript">
-            $(function () {
-                $.get('@Url.Action("GetChart", "Budgets", new { id = 1 })').then(function (response) {
+        $(function () {
+            $.get('@Url.Action("GetChart", "Budgets", new { id = 1 })').then(function (response) {
 
-                    $('#exp').text('$' + response.totalExpense);
-                    $('#bud').text('$' + response.totalBudget);
-                    $('#acc').text('$' + response.totalAcc);
-                    new Morris.Bar({
-                        element: 'chart1',
-                        data: response.bar,
-                        xkey: 'Category',
-                        ykeys: ['Actual', 'Budgeted'],
-                        labels: ['Expenses to Date', 'Amount Budgeted'],
-                        resize: true
-                    });
-                    new Morris.Donut({
-                        element: 'chart2',
-                        data: response.donut,
-                        resize: true
-                    });
+                $('#exp').text('$' + response.totalExpense);
+                $('#bud').text('$' + response.totalBudget);
+                $('#acc').text('$' + response.totalAcc);
+                new Morris.Bar({
+                    element: 'chart1',
+                    data: response.bar,
+                    xkey: 'Category',
+                    ykeys: ['Actual', 'Budgeted'],
+                    labels: ['Expenses to Date', 'Amount Budgeted'],
+                    resize: true
                 });
-
-                $.post('@Url.Action("GetMonthly", "Budgets")').then(function (response) {
-                    console.log(response);
-                    new Morris.Bar({
-                        element: 'MonthlyChart',
-                        data: response,
-                        xkey: 'month',
-                        ykeys: ['income', 'expense', 'budget'],
-                        labels: ['Income to Date', 'Expenses to Date', 'Amount Budgeted'],
-                        resize: true
-                    });
+                new Morris.Donut({
+                    element: 'chart2',
+                    data: response.donut,
+                    resize: true
                 });
             });
+
+            $.post('@Url.Action("GetMonthly", "Budgets")').then(function (response) {
+                console.log(response);
+                new Morris.Bar({
+                    element: 'MonthlyChart',
+                    data: response,
+                    xkey: 'month',
+                    ykeys: ['income', 'expense', 'budget'],
+                    labels: ['Income to Date', 'Expenses to Date', 'Amount Budgeted'],
+                    resize: true
+                });
+            });
+        });
     </script>
 
-    }
+}
