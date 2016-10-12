@@ -7,7 +7,7 @@
 
 <div class="content">
 
-    <div class="page-header full-content bg-orange">
+    <div class="page-header full-content bg-cyan">
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-6"><h1>Dashboard <small>everything at a glance</small></h1></div>
@@ -26,8 +26,6 @@
     <!-- content -->
     <div class="flexible-content">
 
-        <h2>Dashboard</h2>
-
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -36,8 +34,8 @@
                             <span class="widget caption">Month To Date</span>
                         </div>
                         <div class="widget-body">
-                            <div id="MonthlyChart">
-
+                            <div id="myBarChart">
+                                @ViewBag.data
                             </div>
 
                         </div>
@@ -47,7 +45,7 @@
                 <div class="row">
 
                     <div class="col-md-10 col-md-offset-1">
-                        <div class="panel">
+                        <div class="panel indigo">
                             <div class="panel-heading">
                                 <div class="panel-title"><h4>Accounts</h4></div>
                             </div><!--.panel-heading-->
@@ -59,7 +57,12 @@
 
                                         <div class="panel">
                                             <div class="panel-heading">
-                                                <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="@Url.Action("Index", "Accounts")">@item.Name        Balance:   @BalanceHelper.GetBalance(item.Id)       Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)    <small style="margin-right:10%" class="pull-right">Click for transactions</small></a>
+                                                <a class="panel-title" href="@Url.Action("Index", "Accounts")"><div class="row">
+                                                    <div class="col-sm-3">@item.Name </div>
+                                                    <div class="col-sm-3">Balance:   @BalanceHelper.GetBalance(item.Id)</div>
+                                                    <div class="col-sm-3">Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)</div>
+                                                    <div class="col-sm-3"><small style="margin-right:10%" class="pull-right">Click for transactions</small></div></div>
+                                                </a>
                                             </div>
                                         </div>
                                     }
@@ -69,14 +72,9 @@
                     </div>
 
                 </div>
-        </div>
-        <div class="col-md-4">
             <div class="row">
-            @Html.Partial("_NewTransaction", new Transaction())
-            </div>
-                <div class="row">
-                   
-                    <div class="panel">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel cyan">
                         <div class="panel-heading">
                             <div class="panel-title"><h4>Recent Transactions</h4></div>
                         </div><!--.panel-heading-->
@@ -86,21 +84,28 @@
                                 @foreach (var item in Model.RecentTransactions)
                                 {
 
-                                <li class="has-action-left">
-                                    <a class="visible">
-                                        <div class="list-content">
-                                            <span class="title">@item.Amount     @item.Date.LocalDateTime</span>
-                                            <span class="caption">Description:  @item.Description   Type:  @item.TransactionType.Name   Account: @item.Account.Name  </span>
-                                        </div>
-                                    </a>
-                                </li>
+                                    <li class="has-action-left">
+                                        <a class="visible">
+                                            <div class="list-content">
+                                                <span class="title">@item.Amount     @item.Date.LocalDateTime</span>
+                                                <span class="caption">Description:  @item.Description   Type:  @item.TransactionType.Name   Account: @item.Account.Name  </span>
+                                            </div>
+                                        </a>
+                                    </li>
 
                                 }
                             </ul>
                         </div><!--.panel-body-->
                     </div><!--.panel-->
-                         
-                    </div>
+</div>
+                </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+            @Html.Partial("_NewTransaction", new Transaction())
+            </div>
+
 
                 </div>
 
@@ -127,10 +132,10 @@
             </div><!--.col-->
         </div><!--.row-->
     </div><!--.footer-links-->
-</div><!--.content-->
+@*</div>*@<!--.content-->
 @section Scripts{
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+@*<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 <script type="text/javascript">
@@ -155,7 +160,7 @@
                     });
                 });
 
-                $.post('@Url.Action("GetMonthly", "Budgets")').then(function (response) {
+                $.post('@Url.Action("GetMonthly", "Home")').then(function (response) {
                     console.log(response);
                     new Morris.Bar({
                         element: 'MonthlyChart',
@@ -167,7 +172,61 @@
                     });
                 });
             });
+</script>*@
+
+
+    @*<script>
+        $.get('@Url.Action("GetMonthly", "Home")').then(function (response) {
+            console.log(response);
+        });
+        var temp1 = '@ViewBag.data';
+        var data = JSON.parse(temp1);
+        console.log(data);
+
+    </script>*@
+    <script>
+        $.post('@Url.Action("GetPieChartData","Home")'), {},
+    function (data) {
+        var tdata = new google.visualization.DataTable();
+
+        tdata.addColumn('string', 'Label');
+        tdata.addColumn('number', 'Amount');
+
+        for (var i = 0; i < data.length; i++) {
+            tdata.addRow([data[i].Name, data[i].Value]);
+        }
+
+        var options = {
+            title: "MonthToDate Budget"
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('myBarChart'));
+        chart.draw(chartData, null);
+    };
 </script>
+@*<script type="text/javascript">
+  google.charts.load('current', {packages: ['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+      // Define the chart to be drawn.
+      var chartData = new google.visualization.arrayToDataTable(data);
+
+          //data.addColumn('string', 'type');
+          //data.addColumn('number', 'Dollars');
+          //data.addRows([
+          //  ['income', 0.78],
+          //  ['expense', 0.21],
+          //  ['budget', 0.01]
+          //]);
+
+      
+
+          // Instantiate and draw the chart.
+          var chart = new google.visualization.BarChart(document.getElementById('myBarChart'));
+          chart.draw(chartData, null);
+      };
+</script>*@
 
 }
 

@@ -35,10 +35,32 @@
                         @{var aCount = 0; }
                         @foreach (var item in Model.AccountList)
                         {
+                            var color = "amber";
+                            switch (aCount%3)
+                            {
+                                case 0:
+                                    color = "amber";
+                                    break;
+                                case 1:
+                                    color = "cyan";
+                                    break;
+                                case 2:
+                                    color = "lime";
+                                        break;
 
-                            <div class="panel">
+
+                            }
+
+                            <div class="panel @color">
                                 <div class="panel-heading active">
-                                    <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#@aCount">@item.Name    Balance:  @BalanceHelper.GetBalance(item.Id)   Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)    <small style="margin-right:10%" class="pull-right">Click for transactions</small></a>
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#@aCount"><div class="row">
+    <div class="col-sm-3">@item.Name </div>
+    <div class="col-sm-3">Balance:   @BalanceHelper.GetBalance(item.Id)</div>
+    <div class="col-sm-3">Reconciled Balance:   @BalanceHelper.GetReconciledBalance(item.Id)</div>
+    @*<div class="col-sm-1 btn btn-blue btn-xs dt-edit" data-toggle="modal" data-target="#E-@item.Id"><i class="ion-android-create"></i></div>*@     
+    <div class="col-sm-1 btn btn-danger btn-xs dt-delete"data-toggle="modal" data-target="#AD-@item.Id"><span class="ion-android-cancel"></span></div>             
+    
+</div></a>
                                 </div>
                                 <div id=@aCount class="panel-collapse collapse in">
                                     <div class="panel-body">
@@ -73,7 +95,7 @@
                                                                 <tr>
 
                                                                     
-                                                                    <td>@Html.Raw(t.Date.LocalDateTime)</td>
+                                                                    <td>@Html.Raw(t.Date.Month)/@Html.Raw(t.Date.Day)/@Html.Raw(t.Date.Year)</td>
                                                                     <td>@Html.Raw(t.Description)</td>
                                                                     <td>@Html.Raw(t.Category.Name)</td>
                                                                     <td>@Html.Raw(t.TransactionMethod.Name)</td>
@@ -123,8 +145,17 @@
                                     </div>
                                 </div>
                             </div>
-                                                                   aCount++;
-                                                                                    }
+                            <div class="modal fade full-height from-top" id="AD-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        @Html.Partial("_Delete", item)
+
+                                    </div>
+                                </div>
+                            </div>
+                            aCount++;
+                        }
 
 
                     </div>

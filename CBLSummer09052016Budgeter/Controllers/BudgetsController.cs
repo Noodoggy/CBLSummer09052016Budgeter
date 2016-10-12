@@ -13,9 +13,11 @@ using CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using CBLSummer09052016Budgeter.Models.CodeFirst.Helpers;
+using static CBLSummer09052016Budgeter.Models.CodeFirst.Extensions.Extensions;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
+   
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,12 +25,18 @@ namespace CBLSummer09052016Budgeter.Controllers
         // GET: Budgets
         public ActionResult Index()
         {
+            var hid = db.Users.Find(User.Identity.GetUserId()).Household.Id;
+            var house = db.Households.Find(hid);
+
+            ViewBag.HouseholdId = hid;
             var budgets = new BudgetViewModel();
-            budgets.BudgetList = db.Budgets.Include(b => b.Household).Include(bi => bi.BudgetItem).ToList();
+            budgets.BudgetList = db.Budgets.Where(bh => bh.HouseholdId == hid).Include(b => b.Household).Include(bi => bi.BudgetItem).NotVoid().ToList();
             budgets.NewBudgetItem = new BudgetItem();
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
+
+
+            ViewBag.BudgetId = new SelectList(budgets.BudgetList, "Id", "Name");
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.HouseholdId = db.Users.Find(User.Identity.GetUserId()).Household.Id;
+            
             budgets.NewBudget = new Budget();
             budgets.NewBudget.HouseholdId = ViewBag.HouseholdId;
 
@@ -73,7 +81,7 @@ namespace CBLSummer09052016Budgeter.Controllers
                 return RedirectToAction("Index");
             }
 
-            
+            ViewBag.HouseholdId = budget.HouseholdId;
             return View(budget);
         }
 

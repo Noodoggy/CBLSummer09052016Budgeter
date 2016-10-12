@@ -6417,7 +6417,7 @@
     <Content Include="Views\Budgets\Edit.cshtml" />
     <Content Include="Views\Budgets\Index.cshtml" />
     <Content Include="Views\Accounts\_Create.cshtml" />
-    <Content Include="Views\Accounts\Delete.cshtml" />
+    <Content Include="Views\Accounts\_Delete.cshtml" />
     <Content Include="Views\Accounts\Details.cshtml" />
     <Content Include="Views\Accounts\Edit.cshtml" />
     <Content Include="Views\Accounts\Index.cshtml" />
@@ -6435,7 +6435,7 @@
     <Content Include="Views\Households\ConfirmInvite.cshtml" />
     <Content Include="Views\Households\Invite.cshtml" />
     <Content Include="Views\BudgetItems\Create.cshtml" />
-    <Content Include="Views\BudgetItems\Delete.cshtml" />
+    <Content Include="Views\BudgetItems\DeleteBudgetItem.cshtml" />
     <Content Include="Views\BudgetItems\Details.cshtml" />
     <Content Include="Views\BudgetItems\Edit.cshtml" />
     <Content Include="Views\BudgetItems\Index.cshtml" />
@@ -6454,6 +6454,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Households\RemoveUser.cshtml" />
     <Content Include="Views\Home\_NewTransaction.cshtml" />
+    <Content Include="Views\Budgets\_EditBudgetItem.cshtml" />
+    <Content Include="Views\Budgets\_DeleteBudgetItem.cshtml" />
+    <Content Include="Views\Accounts\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

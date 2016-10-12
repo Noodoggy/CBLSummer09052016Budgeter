@@ -16,7 +16,7 @@ using static CBLSummer09052016Budgeter.Models.CodeFirst.Extensions.Extensions;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
-    //[AuthorizeHouseholdRequired]
+    [AuthorizeHouseholdRequired]
     public class AccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -24,8 +24,10 @@ namespace CBLSummer09052016Budgeter.Controllers
         // GET: Accounts
         public ActionResult Index()
         {
+            var uhid = Extensions.GetHouseholdId(User.Identity);
+            var hid = Convert.ToInt32(uhid, 16);
             var accounts = new AccountsViewModel();
-            accounts.AccountList = db.Accounts.Include(a => a.Household).ToList();
+            accounts.AccountList = db.Accounts.Where(ac => ac.HouseholdId == hid).Include(a => a.Household).NotVoid().ToList();
             foreach (var item in accounts.AccountList)
             {
                 var trans = item.Transaction;
@@ -160,6 +162,7 @@ namespace CBLSummer09052016Budgeter.Controllers
         {
             Account account = db.Accounts.Find(id);
             account.HouseholdId = null;
+            account.Void = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

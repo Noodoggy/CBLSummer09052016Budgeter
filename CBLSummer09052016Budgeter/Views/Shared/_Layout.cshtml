@@ -17,7 +17,10 @@
     <link href="~/Content/morris.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/globals/plugins/bootstrap-social/bootstrap-social.css">
     <!-- END CORE CSS -->
+
     <!-- BEGIN PLUGINS CSS -->
+
+    <link href="~/assets/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/globals/plugins/datatables/media/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../assets/globals/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
     <link rel="stylesheet" href="../../assets/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css">
@@ -45,15 +48,16 @@
 
     <!-- BEGIN GLOBAL AND THEME VENDORS -->
 
+
     <script src="~/assets/globals/plugins/jquery/dist/jquery.js"></script>
     <script src="../../assets/globals/js/global-vendors.js"></script>
     <!-- END GLOBAL AND THEME VENDORS -->
     <!-- BEGIN PLUGINS AREA -->
     @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>*@
 
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../../assets/globals/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="../../assets/globals/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
     <script src="../../assets/globals/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
@@ -64,8 +68,8 @@
     <!-- END PLUGINS AREA -->
     <!-- PLUGINS INITIALIZATION AND SETTINGS -->
     <script src="../../assets/globals/scripts/tables-datatables-extensions.js"></script>
-
-
+    <script src="~/assets/globals/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="../../assets/globals/scripts/forms-pickers.js"></script>
     <script src="../../assets/globals/scripts/user-pages.js"></script>
     <!-- END PLUGINS INITIALIZATION AND SETTINGS -->
     <!-- PLEASURE -->
@@ -89,21 +93,23 @@
     </script>
     <!-- END Google Analytics -->
 
-    
 
-    @Styles.Render()
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render()
-    @RenderSection("scripts", required: false)
+
+
     <script>
 	$(document).ready(function () {
 		Pleasure.init();
 		Layout.init();
 		TablesDataTablesExtensions.init();
 		UserPages.login();
+		FormsPickers.init();
 	});
     </script>
+    @Styles.Render()
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render()
+    @RenderSection("scripts", required: false)
 
- 
+
 </body>   
 </html>

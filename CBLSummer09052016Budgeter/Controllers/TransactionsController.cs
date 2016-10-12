@@ -11,9 +11,11 @@ using CBLSummer09052016Budgeter.Models.CodeFirst;
 
 using Microsoft.AspNet.Identity;
 using CBLSummer09052016Budgeter.Models.CodeFirst.Helpers;
+using static CBLSummer09052016Budgeter.Models.CodeFirst.Extensions.Extensions;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
+    [AuthorizeHouseholdRequired]
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

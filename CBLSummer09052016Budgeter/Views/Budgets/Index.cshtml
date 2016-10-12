@@ -51,7 +51,7 @@
                                                     <thead>
 
                                                         <tr>
-                                                            <th><input type="checkbox" class="checkable-group" data-target=".dataTable .checkboxes"></th>
+                                                            
                                                             <th>Category</th>
                                                             <th>Budgeted Amount</th>
                                                             <th>Actual</th>
@@ -63,18 +63,36 @@
 
                                                     <tbody>
 
-                                                        @foreach (var t in item.BudgetItem)
+                                                        @foreach (var b in item.BudgetItem)
                                                         {
                                                             <tr>
 
-                                                                <td><input type="checkbox" class="checkboxes" value="1"></td>
-                                                                <td>@Html.Raw(t.Category.Name)</td>
-                                                                <td>@Html.Raw(t.Amount)</td>
-                                                                <td>placeholder for actual amount</td>
-                                                                <td><button class="btn btn-primary btn-xs dt-edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                                                <td><button class="btn btn-danger btn-xs dt-delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                                                
+                                                                <td>@Html.Raw(b.Category.Name)</td>
+                                                                <td>@Html.Raw(b.Amount)</td>
+                                                                <td>placeholder</td>
+                                                                <td><button class="btn btn-floating btn-blue btn-ripple" data-toggle="modal" data-target="#E-@b.Id"><span class="ion-android-create"></span></button></td>
+                                                                <td><button class="btn btn-floating btn-red btn-ripple" data-toggle="modal" data-target="#D-@b.Id"><span class="ion-minus-round"></span></button></td>
 
                                                             </tr>
+                                                            <div class="modal fade full-height from-right" id="E-@b.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+
+                                                                        @Html.Partial("_EditBudgetItem", b)
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <div class="modal fade full-height from-left" id="D-@b.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+
+                                                                            @Html.Partial("_DeleteBudgetItem", b)
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                         }
 
                                                     </tbody>

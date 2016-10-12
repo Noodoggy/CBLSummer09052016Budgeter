@@ -1,92 +1,5 @@
 ﻿@model CBLSummer09052016Budgeter.Models.CodeFirst.ViewModels.InviteViewModel
-@*@section Styles{
-    <link href="~/Content/lou-multi-select-a0f48de/css/multi-select.css" rel="stylesheet" />
-}*@
-@*<h2>EditAssignedUsers</h2>
 
-
-
-    @{
-        ViewBag.Title = "Edit Project Users";
-    }
-
-    <h2></h2>
-
-    @using (Html.BeginForm("EditAssignedProjectUsers", "Projects", FormMethod.Post))
-    {
-        @Html.HiddenFor(model => model.ProjectName)
-        <div class="row">
-            <div class="col-md-4">@Model.ProjectName</div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-
-                        @Html.ListBox("selected", Model.users)
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Assign To Project" class="btn btn-default" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @Html.ActionLink("Back to Projects", "Index")
-        </div>
-    }*@
-
-@*@using (Html.BeginForm("EditAssignedProjectUsers", "Projects", FormMethod.Post))
-    {*@
-
-
-            @*<h2 class="font-light m-b-xs">
-                    Projects
-                </h2>
-
-
-
-@*<div class="col-sm-6 col-sm-offset-3">
-    <div class="hpanel plan-box hgreen active">
-        <div class="panel-heading hbuilt text-center">
-            <h4 class="font-bold">@Model.ProjectName</h4>
-        </div>
-        <div class="panel-body">
-            <p class="text-muted">
-                select users to add to project, shift for group select, control for precise select
-            </p>
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col-sm-3">
-
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-
-                                @Html.ListBox("selected", Model.users)
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="form-group">*@
-@*<div class="col-md-offset-2 col-md-10">
-    <input type="submit" value="Assign To Project" class="btn btn-success btn-sm m-t-xs" />
-    @*</div>*@
-@*</div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>*@
-
-@*}*@
 <div class="col-md-6 col-md-offset-3">
     @*<div class="hpanel plan-box hgreen active">
         <div class="panel-heading hbuilt text-center">*@
@@ -99,30 +12,31 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
+                        Add this user?
 
-                        <div class="col-md-4 col-md-offset-2 form-group">
-                            @using (Html.BeginForm())
+                            @using (Html.BeginForm("Invite", "Households", FormMethod.Post))
                             {
+
                                 @Html.AntiForgeryToken()
-                                @Html.HiddenFor(m => m.Id)
-                                @Html.HiddenFor(m => m.Household)
-                                @Html.HiddenFor(m => m.HouseholdName)
-                                @Html.HiddenFor(m => m.user)
+                                @Html.HiddenFor(model => model.HouseId)
+                                @*<input type="hidden" name="model.AddToHousehold" id="model.AddToHousehold" value="@Model.AddToHousehold" />*@
 
-                                @Html.DisplayFor(m => m.user)
+                                            @Html.HiddenFor(model => Model.UserId)
+                                            @*<input type="hidden" name="model.UserToAdd" id="model.UserToAdd" value="@Model.UserToAdd" />*@
 
-                                <br />
+                                            @Html.DisplayFor(model => model.UserToAddName)
 
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <input type="submit" value="Save" class="btn btn-success" />
+                                            <br />
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                   
+                                                        <div class="col-md-12">
+                                                            <input type="submit" value="Save" class="btn btn-success" />
+                                                        </div>
+                                                  
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
 
 
                             }
@@ -130,4 +44,4 @@
                     </div>
                 </div>
             </div>
-        </div>
+

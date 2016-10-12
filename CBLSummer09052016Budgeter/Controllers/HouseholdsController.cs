@@ -21,6 +21,7 @@ using static CBLSummer09052016Budgeter.Models.CodeFirst.Helpers.HouseholdUsersHe
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
+    
     public class HouseholdsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -63,7 +64,7 @@ namespace CBLSummer09052016Budgeter.Controllers
             }
         }
         // GET: Households
-
+        [AuthorizeHouseholdRequired]
         public ActionResult Index()
         {
             var users = db.Users.Find(User.Identity.GetUserId());
@@ -252,27 +253,29 @@ namespace CBLSummer09052016Budgeter.Controllers
         {
             var household = db.Households.Find(hid);                                             //find project by id
             HouseholdUsersHelper helper = new HouseholdUsersHelper();                         //helper that can be used locally
-            var model = new Models.CodeFirst.ViewModels.InviteViewModel();                                     //use model to render in view
-            model.HouseholdName = household.Name;                                               //insert project data
-            model.Id = household.Id;                                                           //insert project id
-            model.selected = helper.ListHouseholdUsers(hid).ToArray();                         //users on project to array of selected for multiselect list
-            model.Household = household;
-            var user = User.Identity.GetUserId();
-            model.user = db.Users.Find(user);        //mulitselect list with names and selected as users on project
+            var model = new InviteViewModel();                                     //use model to render in view
+            /*model.HouseholdName = household.Name;  */                                             //insert project data
+            model.HouseId = household.Id;                                                           //insert project id
+            model.HouseholdName = household.Name;
+            model.UserToAddName = db.Users.Find(id).DisplayName;
+            //model.Household = household;
+
+            model.UserId = id;        //mulitselect list with names and selected as users on project
 
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Invite([Bind(Include = "Id,Houshold,HouseholdName,selected")]InviteViewModel model)
+        public async Task<ActionResult> Invite([Bind(Include = "HouseId, UserId")] InviteViewModel model)
         {
-            var user = model.selected;
+            
 
-                var userId = db.Users.Find(user);
+                var userId = db.Users.Find(model.UserId);
                 var invite = new Invitation();
-                invite.HouseholdId = model.Id;
+                invite.HouseholdId = model.HouseId;
                 invite.Accepted = false;
+                
                 db.Invitations.Add(invite);
             db.SaveChanges();
                 userId.InvitationId = invite.Id;
@@ -347,7 +350,7 @@ namespace CBLSummer09052016Budgeter.Controllers
             var userId = User.Identity.GetUserId();
             var h = Extensions.GetHouseholdId(User.Identity);
             int hid = 0;
-            Int32.TryParse(h, out hid);
+            int.TryParse(h, out hid);
             huh.RemoveFromHousehold(userId, hid);
             await ControllerContext.HttpContext.RefreshAuthentication(db.Users.Find(userId));
             return RedirectToAction("Index");

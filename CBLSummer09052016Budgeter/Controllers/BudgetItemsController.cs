@@ -10,9 +10,11 @@ using CBLSummer09052016Budgeter.Models;
 using CBLSummer09052016Budgeter.Models.CodeFirst;
 using CBLSummer09052016Budgeter.Models.CodeFirst.Helpers;
 using CBLSummer09052016Budgeter.Models.CodeFirst.Extensions;
+using static CBLSummer09052016Budgeter.Models.CodeFirst.Extensions.Extensions;
 
 namespace CBLSummer09052016Budgeter.Controllers
 {
+    
     public class BudgetItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -54,6 +56,7 @@ namespace CBLSummer09052016Budgeter.Controllers
         // POST: BudgetItems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AuthorizeHouseholdRequired]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,CategoryId,BudgetId,Amount")] BudgetItem budgetItem)
@@ -98,7 +101,7 @@ namespace CBLSummer09052016Budgeter.Controllers
             {
                 db.Entry(budgetItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Budgets");
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budgetItem.CategoryId);
@@ -128,7 +131,7 @@ namespace CBLSummer09052016Budgeter.Controllers
             BudgetItem budgetItem = db.BudgetItems.Find(id);
             db.BudgetItems.Remove(budgetItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Budgets");
         }
 
         protected override void Dispose(bool disposing)
